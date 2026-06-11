@@ -1,15 +1,7 @@
 import curses
+import gameoflife
 from curses import wrapper
 from curses.textpad import rectangle
-
-class GameOfLife(object):
-    # size of board
-    size = 23
-    board = [[None]*size]*size
-    def __init__(self):
-        return
-    def life_step():
-        return
 
 def main(stdscr):
     stdscr.clear()
