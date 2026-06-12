@@ -7,7 +7,7 @@ class GameOfLife:
         field, using dead edges.
         """
         self.bsize = 23
-        self.board = np.zeros((self.bsize, self.bsize))
+        self.board = np.ones((self.bsize, self.bsize))
 
     def print_board(self):
         """ Prints a representation of the board """
@@ -15,54 +15,15 @@ class GameOfLife:
 
     def num_neighbors(self, x, y):
         """ Calculates the number of neighbors a given tile has """
-        neighbors = 0
-        if x == 0:
-            if y == 0:
-                #check only right and down
-                neighbors += self.board[x+1][y]
-                neighbors += self.board[x+1][y+1]
-                neighbors += self.board[x][y+1]
-            if y == 22: # only check left and down
-                neighbors += self.board[x+1][y]
-                neighbors += self.board[x+1][y-1]
-                neighbors += self.board[x][y-1]
-            else:
-                neighbors += self.board[x-1][y-1]
-                neighbors += self.board[x-1][y]
-                neighbors += self.board[x-1][y+1]
-                neighbors += self.board[x][y+1]
-                neighbors += self.board[x][y-1]
-                neighbors += self.board[x+1][y-1]
-                neighbors += self.board[x+1][y]
-                neighbors += self.board[x+1][y+1]
-        elif x == 22: # only check up
-            if y == 0:
-                #check only right and down
-                neighbors += self.board[x-1][y]
-                neighbors += self.board[x-1][y+1]
-                neighbors += self.board[x][y+1]
-            if y == 22: # only check left and down
-                neighbors += self.board[x-1][y]
-                neighbors += self.board[x-1][y-1]
-                neighbors += self.board[x][y-1]
-            else:
-                neighbors += self.board[x-1][y-1]
-                neighbors += self.board[x-1][y]
-                neighbors += self.board[x-1][y+1]
-                neighbors += self.board[x][y+1]
-                neighbors += self.board[x][y-1]
-                neighbors += self.board[x+1][y-1]
-                neighbors += self.board[x+1][y]
-                neighbors += self.board[x+1][y+1]
+        # catch negatives if x or y are zero
+        if x == 0 and y == 0:
+            neighbors = np.sum(self.board[x:x+2, y:y+2]) - self.board[x][y]
+        elif x == 0:
+            neighbors = np.sum(self.board[x:x+2, y-1:y+2]) - self.board[x][y]
+        elif y == 0:
+            neighbors = np.sum(self.board[x-1:x+2, y:y+2]) - self.board[x][y]
         else:
-            neighbors += self.board[x-1][y-1]
-            neighbors += self.board[x-1][y]
-            neighbors += self.board[x-1][y+1]
-            neighbors += self.board[x][y+1]
-            neighbors += self.board[x][y-1]
-            neighbors += self.board[x+1][y-1]
-            neighbors += self.board[x+1][y]
-            neighbors += self.board[x+1][y+1]
+            neighbors = np.sum(self.board[x-1:x+2, y-1:y+2]) - self.board[x][y]
         return neighbors
 
     def print_neighbors(self):
@@ -70,5 +31,5 @@ class GameOfLife:
             for j in i:
                 print(self.num_neighbors(i,j))
                 
-    def life_step():
+    def life_step(self):
         return
