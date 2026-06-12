@@ -7,11 +7,12 @@ class GameOfLife:
         field, using dead edges.
         """
         self.bsize = 23
-        self.board = np.ones((self.bsize, self.bsize))
+        self.rngseed = 2695
+        self.rng = np.random.default_rng(self.rngseed)
+        self.board = np.ones((self.bsize, self.bsize), np.int64)
 
-    def print_board(self):
-        """ Prints a representation of the board """
-        print(self.board)
+    def randomize(self):
+        self.board = self.rng.integers(low=0, high=2, size=(self.bsize, self.bsize))
 
     def num_neighbors(self, x, y):
         """ Calculates the number of neighbors a given tile has """
@@ -27,7 +28,7 @@ class GameOfLife:
         return neighbors
 
     def print_neighbors(self):
-        out = np.zeros((self.bsize, self.bsize))
+        out = np.zeros((self.bsize, self.bsize), np.int8)
         for i in range(self.bsize):
             for j in range(self.bsize):
                 out[i][j] = self.num_neighbors(i,j)
