@@ -14,10 +14,13 @@ def main(stdscr):
         stdscr.addstr(j, 2, np.array_str(game.board[j])[1:-1])
     stdscr.refresh()
     #loop for game
-    for i in range(0, 1000):
+    for i in range(0, 100):
         game.life_step()
         for j in range(game.bsize):
-            stdscr.addstr(j, 2, np.array_str(game.board[j])[1:-1])
+            row = np.array_str(game.board[j])[1:-1]
+            row = row.replace('0', ' ')
+            row = row.replace('1', '@')
+            stdscr.addstr(j, 2, row)
         stdscr.refresh()
         
         # TODO: check for user input
