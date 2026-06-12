@@ -27,9 +27,20 @@ class GameOfLife:
         return neighbors
 
     def print_neighbors(self):
-        for i in self.board:
-            for j in i:
-                print(self.num_neighbors(i,j))
-                
+        out = np.zeros((self.bsize, self.bsize))
+        for i in range(self.bsize):
+            for j in range(self.bsize):
+                out[i][j] = self.num_neighbors(i,j)
+        print(out)
+        
     def life_step(self):
+        for i in range(self.bsize):
+            for j in range(self.bsize):
+                neighs = self.num_neighbors(i,j)
+                if self.board[i][j] == 1:
+                    if neighs < 2 or neighs > 3:
+                        self.board[i][j] = 0
+                else:
+                    if neighs == 3:
+                        self.board[i][j] = 1
         return
