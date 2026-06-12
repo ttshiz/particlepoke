@@ -1,23 +1,26 @@
 import curses
 import gameoflife
+import numpy as np
 from curses import wrapper
 from curses.textpad import rectangle
 
 def main(stdscr):
     stdscr.clear()
-    #stdscr.nodelay(True)
-    # make window with boarder for game, window size then coordinates
-    #win = curses.newwin(77, 77, 2, 2)
-    # boarder of window coordinates then window size
-    rectangle(stdscr, 1, 1, 23, 23)
+    stdscr.nodelay(True)
+    game = gameoflife.GameOfLife()
+    game.randomize()
+    #initialize display
+    for j in range(game.bsize):
+        stdscr.addstr(j, 2, np.array_str(game.board[j])[1:-1])
+    stdscr.refresh()
     #loop for game
-    for i in range(2, 10):
-        v = i-10
-        # change to add line of array
-        stdscr.addstr(i, 2, '10 divided by {} is {}'.format(v, 10/v))
-        #move refresh till after all array added
+    for i in range(0, 1000):
+        game.life_step()
+        for j in range(game.bsize):
+            stdscr.addstr(j, 2, np.array_str(game.board[j])[1:-1])
         stdscr.refresh()
-        # check for user input
+        
+        # TODO: check for user input
         try:
             keypress = stdscr.getkey()
         except:
